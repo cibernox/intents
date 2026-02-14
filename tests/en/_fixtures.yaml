@@ -126,6 +126,28 @@ entities:
     area: "garage_id"
     state: "on"
 
+  # Entity name precedence test entities
+  # Kitchen and Bedroom have lights named exactly "Light" and "Lamp"
+  - name: "Light"
+    id: "light.light_kitchen"
+    area: "kitchen_id"
+    state: "off"
+
+  - name: "Lamp"
+    id: "light.lamp_kitchen"
+    area: "kitchen_id"
+    state: "off"
+
+  - name: "Light"
+    id: "light.light_bedroom"
+    area: "bedroom_id"
+    state: "off"
+
+  - name: "Lamp"
+    id: "light.lamp_bedroom"
+    area: "bedroom_id"
+    state: "off"
+
   - name: Play Corner
     id: light.play_corner
     area: "living_room_id"

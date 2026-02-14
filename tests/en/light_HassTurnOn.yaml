@@ -202,3 +202,128 @@ tests:
         domain: light
         floor: First Floor
     response: "Turned on the lights"
+
+  # =========================================
+  # IMPLICIT AREA (speaker context) - Entity name precedence tests
+  # =========================================
+
+  # "Turn on the light" with implicit area (Kitchen) - should match entity named "Light" in Kitchen only
+  - sentences:
+      - turn on the light
+    intent:
+      name: HassTurnOn
+      context:
+        area: Kitchen
+      slots:
+        name: Light
+    response: "Turned Light on"
+
+  # "Turn on the lamp" with implicit area (Kitchen) - should match entity named "Lamp" in Kitchen only
+  - sentences:
+      - turn on the lamp
+    intent:
+      name: HassTurnOn
+      context:
+        area: Kitchen
+      slots:
+        name: Lamp
+    response: "Turned Lamp on"
+
+  # "Turn on the light" with implicit area where NO entity named "Light" exists (Living Room)
+  # - should fall back to turning on all lights (domain: light) in that area
+  - sentences:
+      - turn on the light
+    intent:
+      name: HassTurnOn
+      context:
+        area: Living Room
+      slots:
+        domain: light
+        area: Living Room
+    response: "Turned on the lights"
+
+  # "Turn on the lamp" with implicit area where NO entity named "Lamp" exists (Living Room)
+  # - should fall back to turning on all lights (domain: light) in that area
+  - sentences:
+      - turn on the lamp
+    intent:
+      name: HassTurnOn
+      context:
+        area: Living Room
+      slots:
+        domain: light
+        area: Living Room
+    response: "Turned on the lights"
+
+  # Plural forms are always generic - "Turn on the lights" should be domain: light
+  - sentences:
+      - turn on the lights
+    intent:
+      name: HassTurnOn
+      context:
+        area: Kitchen
+      slots:
+        domain: light
+        area: Kitchen
+    response: "Turned on the lights"
+
+  # =========================================
+  # EXPLICIT AREA - Entity name precedence tests
+  # =========================================
+
+  # "Turn on the light in the bedroom" - should match entity named "Light" in Bedroom only
+  - sentences:
+      - turn on the light in the bedroom
+      - turn on the light in bedroom
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Light
+        area: Bedroom
+    response: "Turned Light on"
+
+  # "Turn on the lamp in the bedroom" - should match entity named "Lamp" in Bedroom only
+  - sentences:
+      - turn on the lamp in the bedroom
+      - turn on the lamp in bedroom
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Lamp
+        area: Bedroom
+    response: "Turned Lamp on"
+
+  # "Turn on the light in the garage" (Garage has no entity named "Light")
+  # - should fall back to turning on all lights in Garage
+  - sentences:
+      - turn on the light in the garage
+      - turn on the light in garage
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        area: Garage
+    response: "Turned on the lights"
+
+  # "Turn on the lamp in the garage" (Garage has no entity named "Lamp")
+  # - should fall back to turning on all lights in Garage
+  - sentences:
+      - turn on the lamp in the garage
+      - turn on the lamp in garage
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        area: Garage
+    response: "Turned on the lights"
+
+  # Plural forms with explicit area are always generic
+  - sentences:
+      - turn on the lights in the bedroom
+      - turn on the lights in bedroom
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        area: Bedroom
+    response: "Turned on the lights"
