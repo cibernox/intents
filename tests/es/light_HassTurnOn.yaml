@@ -49,23 +49,6 @@ tests:
       slots:
         domain: light
 
-  # Turn on lights in the same area as a satellite device
-  - sentences:
-      - enciende la luz
-      - enciende todas las luces de aquí
-      - podrías encender la luz
-      - conecta las luces
-      - puedes activar las luces aquí
-      - prende las luces
-    intent:
-      name: HassTurnOn
-      context:
-        area: Salón
-      slots:
-        domain: light
-        area: Salón
-    response: Luces encendidas
-
   # Turn on all lights on a floor
   - sentences:
       - prender todas las luces de la planta baja
@@ -82,9 +65,9 @@ tests:
   # IMPLICIT AREA (speaker context) - Entity name precedence tests
   # =========================================
 
-  # "Prende la luz" with implicit area (Cocina) - should match entity named "Luz" in Cocina only
+  # "Active la luz" with implicit area (Cocina) - should match entity named "Luz" in Cocina only
   - sentences:
-      - prende la luz
+      - activa la luz
     intent:
       name: HassTurnOn
       context:
@@ -94,9 +77,9 @@ tests:
         name: Luz
     response: luz se ha encendido
 
-  # "Activa la lámpara" with implicit area (Cocina) - should match entity named "Lámpara" in Cocina only
+  # "Enciende la lámpara" with implicit area (Cocina) - should match entity named "Lámpara" in Cocina only
   - sentences:
-      - activa la lámpara
+      - enciende la lámpara
     intent:
       name: HassTurnOn
       context:
@@ -106,10 +89,15 @@ tests:
         name: Lámpara
     response: lámpara se ha encendido
 
-  # "Conecta la luz" with implicit area where NO entity named "Luz" exists (Salón)
+  # "Enciende la luz" with implicit area where NO entity named "Luz" exists (Salón)
   # - should fall back to turning on all lights (domain: light) in that area
   - sentences:
-      - conecta la luz
+      - enciende la luz
+      - enciende todas las luces de aquí
+      - podrías encender la luz
+      - conecta las luces
+      - puedes activar las luces aquí
+      - prende las luces
     intent:
       name: HassTurnOn
       context:
@@ -121,7 +109,7 @@ tests:
 
   # Plural forms are always generic - "Enciende las luces" should be domain: light
   - sentences:
-      - activa las luces
+      - enciende las luces
     intent:
       name: HassTurnOn
       context:

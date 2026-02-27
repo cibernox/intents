@@ -188,17 +188,24 @@ def do_test_language_sentences_file(
             if context_area and matched_entities:
                 # Group entities by their text (name)
                 from collections import defaultdict
+
                 entities_by_name: dict[str, list] = defaultdict(list)
                 for entity in matched_entities:
                     # entity is a TextSlotValue, get the text
-                    entity_text = entity.text_in.text if hasattr(entity, 'text_in') else str(entity)
+                    entity_text = (
+                        entity.text_in.text
+                        if hasattr(entity, "text_in")
+                        else str(entity)
+                    )
                     entities_by_name[entity_text.lower()].append(entity)
 
                 filtered_entities = []
                 for _name, entities in entities_by_name.items():
                     entities_in_context_area = [
-                        e for e in entities
-                        if hasattr(e, 'context') and e.context.get("area") == context_area
+                        e
+                        for e in entities
+                        if hasattr(e, "context")
+                        and e.context.get("area") == context_area
                     ]
 
                     if entities_in_context_area:
